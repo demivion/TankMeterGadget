@@ -1,0 +1,6 @@
+package-as: TankMeter
+
+required-dependencies:
+    - gadgets
+
+manual-changelog: CHANGELOG.txt
