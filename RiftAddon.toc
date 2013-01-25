@@ -20,3 +20,5 @@ Embed = {}
 Dependencies = {
 	Gadgets = {"required", "before"},
 }
+
+test
