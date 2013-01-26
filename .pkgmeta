@@ -1,18 +1,1 @@
 package-as: TankMeter
-
-externals:
-
-move-folders:
-
-ignore:
-
-required-dependencies:
-    - gadgets
-
-optional-dependencies:
-
-manual-changelog: CHANGELOG.txt
-
-license-output:
-
-tools-used:
