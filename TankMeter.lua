@@ -9,11 +9,10 @@ local dialog = false
 -- This should be done in all gadgets to save on overhead when no gadget instances exist 
 local function Init()
 	table.insert(WT.Event.PlayerAvailable, {OnPlayerAvailable, AddonId, "BuffIcons_OnPlayerAvailable"})
-	table.insert(Event.Stat, { Buffcalc, AddonId, "OnStat" })
 	initDone = true
 end
 local function OnPlayerAvailable()
-	
+
 end
 
 local TankMeters = {}
@@ -56,6 +55,7 @@ local BuffFilter = {
 	"Crest of Consumption", -- 20% DR
 	"Binding of Devouring Darkness", -- 5% DR
 	"Brothers in Arms", -- 15% link
+	"Planar Refuge" -- 30% DR
 }
 
 -- General config
@@ -63,30 +63,14 @@ local  selectClass = nil
 local  CHKpassivemit = nil
 --cleric talents
 
---local SLDclericpts = nil
-
---local SLDarmorofvirtue = nil
---local SLDstronghold = nil
---local SLDstalwartcitadel = nil
 local SLDshieldoffaith = nil
---local SLDdevoutdeflection = nil
---local SLDthorvinslaw = nil
 local SLDunshakablefaith = nil
 
---local SLDstrokeofgenius = nil
---local SLDopenminded = nil
---local SLDspeaksoftly = nil
---local SLDspiritguidance = nil
 local SLDthickskinned = nil
 
--- local selUnitToTrack = nil
--- local chkTooltips = nil
--- local chkCancel = nil
 
 
 --rogue
-
---local SLDroguepts = nil
 
 local SLDonguard = nil -- 5% block 5% block amount 5/5
 local SLDimprovedriftguard = nil -- 2% DR on rift guard 1/1
@@ -97,7 +81,7 @@ local SLDboosteddefenses = nil
 
 -- warrior
 	-- Paladin
-local SLDstalwartshield = nil -- 2.5% block 5/5
+local SLDstalwartshield = nil -- 3% block 5/5
 local SLDunyieldingdefense = nil -- 3% block amount 3/3
 local SLDpacification = nil -- 3% DR on pacification 3/3
 	-- Reaver
@@ -133,20 +117,10 @@ local function GetConfiguration()
 	config.passivemit = CHKpassivemit:GetChecked()
 	
 --cleric	
-	--config.clericpts = SLDclericpts:GetPosition()
-	
-	--config.armorofvirtue = SLDarmorofvirtue:GetPosition()
-	--config.stronghold = SLDstronghold:GetPosition()
-	--config.stalwartcitadel = SLDstalwartcitadel:GetPosition()
+
 	config.shieldoffaith = SLDshieldoffaith:GetPosition()
-	--config.devoutdeflection = SLDdevoutdeflection:GetPosition()
-	--config.thorvinslaw = SLDthorvinslaw:GetPosition()
 	config.unshakablefaith = SLDunshakablefaith:GetPosition()
-	
-	--config.strokeofgenius = SLDstrokeofgenius:GetPosition()
-	--config.openminded = SLDopenminded:GetPosition()
-	--config.speaksoftly = SLDspeaksoftly:GetPosition()
-	--config.spiritguidance = SLDspiritguidance:GetPosition()
+
 	config.thickskinned = SLDthickskinned:GetPosition()
 	
 	
@@ -172,24 +146,17 @@ local function GetConfiguration()
 end
 
 local function SetConfiguration(config)
+
 --general config
+
 	selectClass:SetText(config.class)
 	CHKpassivemit:SetChecked(WT.Utility.ToBoolean(config.passivemit))
---Cleric
-	--SLDclericpts:SetPosition(config.clericpts or 61)
 	
-	--SLDarmorofvirtue:SetPosition(config.armorofvirtue or 5)
-	--SLDstronghold:SetPosition(config.stronghold or 5)
-	--SLDstalwartcitadel:SetPosition(config.stalwartcitadel or 2)
+--Cleric
+
 	SLDshieldoffaith:SetPosition(config.shieldoffaith or 5)
-	--SLDdevoutdeflection:SetPosition(config.devoutdeflection or 2)
-	--SLDthorvinslaw:SetPosition(config.thorvinslaw or 3)
 	SLDunshakablefaith:SetPosition(config.unshakablefaith or 2)
 	
-	--SLDstrokeofgenius:SetPosition(config.strokeofgenius or 5)
-	--SLDopenminded:SetPosition(config.openminded or 5)
-	--SLDspeaksoftly:SetPosition(config.speaksoftly or 5)
-	--SLDspiritguidance:SetPosition(config.spiritguidance or 5)
 	SLDthickskinned:SetPosition(config.thickskinned or 5)
 	
 --Rogue	 
@@ -283,24 +250,10 @@ local function ConfigDialog(container)
 	
 -- Cleric tab
 	
-	-- SLDclericpts = CreateSlider(configclericInner, configclericInner, "Justicar Points:", 16, 61, 61)
-	-- SLDclericpts.Label:SetPoint("TOPLEFT", configclericInner, "TOPLEFT", 4, 4)
-	-- SLDclericpts:SetWidth(350)
-	
-	--SLDarmorofvirtue = CreateSlider(configclericInner, SLDclericpts.Label, "Armor of Virtue:", 0, 5, 5)
-	--SLDstronghold = CreateSlider(configclericInner, SLDarmorofvirtue.Label, "Stronghold:", 0, 5, 5)
-	--SLDstalwartcitadel = CreateSlider(configclericInner, SLDstronghold.Label, "Stalwart Citadel:", 0, 2, 2)
 	SLDshieldoffaith = CreateSlider(configclericInner, configclericInner, "Shield of Faith:", 0, 5, 5)
 	SLDshieldoffaith.Label:SetPoint("TOPLEFT", configclericInner, "TOPLEFT", 4, 4)
-	--SLDdevoutdeflection = CreateSlider(configclericInner, SLDshieldoffaith.Label, "Devout Deflection:", 0, 2, 2)
-	--SLDthorvinslaw = CreateSlider(configclericInner, SLDdevoutdeflection.Label, "Thorvin's Law:", 0, 3, 3)
 	SLDunshakablefaith = CreateSlider(configclericInner, SLDshieldoffaith.Label, "Unshakable Faith:", 0, 2, 2)
 	
-	--SLDstrokeofgenius = CreateSlider(configclericInner, SLDunshakablefaith.Label, "Stroke of Genius:", 0, 5, 0)
-	--SLDstrokeofgenius.Label:SetPoint("TOPLEFT", SLDunshakablefaith.Label, "TOPLEFT", 0, 50)	
-	--SLDopenminded = CreateSlider(configclericInner, SLDstrokeofgenius.Label, "Open Minded:", 0, 5, 0)
-	--SLDspeaksoftly = CreateSlider(configclericInner, SLDopenminded.Label, "Speak Softly:", 0, 5, 0)
-	--SLDspiritguidance = CreateSlider(configclericInner, SLDspeaksoftly.Label, "Spirit Guidance:", 0, 5, 0)
 	SLDthickskinned = CreateSlider(configclericInner, SLDunshakablefaith.Label, "Thick Skinned:", 0, 5, 5)
 	
 	
@@ -318,8 +271,8 @@ local function ConfigDialog(container)
 --Warrior tab	
 	
 	SLDstalwartshield = CreateSlider(configwarriorInner, configwarriorInner, "Stalwart Shield:", 0, 5, 0)
-	SLDstalwartshield.Label:SetPoint("TOPLEFT", configwarriorInner, "TOPLEFT", 4, 4)
-	SLDunyieldingdefense = CreateSlider(configwarriorInner, SLDstalwartshield.Label, "Unyielding Defense:", 0, 5, 0)
+	SLDstalwartshield.Label:SetPoint("TOPLEFT", configwarriorInner, "TOPLEFT", 4, 0)
+	SLDunyieldingdefense = CreateSlider(configwarriorInner, SLDstalwartshield.Label, "Unyielding Defense:", 0, 3, 0)
 	SLDpacification = CreateSlider(configwarriorInner, SLDunyieldingdefense.Label, "Pacification:", 0, 3, 0)
 	SLDpowerfromthemasses = CreateSlider(configwarriorInner, SLDpacification.Label, "Power from the Masses:", 0, 5, 0)
 	SLDdevourer = CreateSlider(configwarriorInner, SLDpowerfromthemasses.Label, "Devourer:", 0, 2, 0)
@@ -374,16 +327,12 @@ local function EHPcalc()
 		config = TankMeters[i].configvalues
 		class = config.class
 		
-		--print("class = " .. class)
-		
 		-- class based Talent configuration
 		
 		if class == "Cleric" then
 		
 			TalentDR = (config.shieldoffaith + config.thickskinned)/100
 			TalentBamount = (config.unshakablefaith * 2)/100
-			--print("TalentDR = " .. TalentDR)
-			--print("TalentBamount = " .. TalentBamount)
 			
 		elseif class == "Rogue" then
 		
@@ -392,14 +341,10 @@ local function EHPcalc()
 			TalentBchance = (config.onguard)/100
 			TalentDchance = (config.quickreflexes)/100
 			if Buffriftguard == true then IRG = .02 end
-			--print("TalentDR = " .. TalentDR)
-			--print("TalentBamount = " .. TalentBamount)
-			--print("TalentBchance = " .. TalentBchance)
-			--print("TalentDchance = " .. TalentDchance)
 			
 		elseif class == "Warrior" then
 		
-			TalentBchance = (config.stalwartshield/2)/100
+			TalentBchance = (config.stalwartshield*3/5)/100
 			TalentBamount = (config.unyieldingdefense)/100
 			TalentDR = (config.pacification + config.powerfromthemasses + config.downanddirty)/100
 			if Buffpacification == true then pac = (config.pacification/100) end
@@ -452,6 +397,48 @@ local function EHPcalc()
 		end
 
 		TankMeter.txtEHP:SetLabelText(TEHP)
+		
+	-- print("TalentDR")
+	-- print(TalentDR)
+	-- print("TalentBamount")
+	-- print(TalentBamount)
+	-- print("TalentBchance")
+	-- print(TalentBchance)
+	-- print("TalentDchance")
+	-- print(TalentDchance)
+	-- print("TalentPchance")
+	-- print(TalentPchance)
+	
+	-- print("IRG")
+	-- print(IRG)
+	-- print("pac")
+	-- print(pac)
+	-- print("void")
+	-- print(void)
+	
+	-- print("DT")
+	-- print(DT)
+	-- print("ArmMit")
+	-- print(ArmMit)
+	-- print("DTafterarmor")
+	-- print(DTafterarmor)
+	-- print("Dchance")
+	-- print(Dchance)
+	-- print("Pchance")
+	-- print(Pchance)
+	-- print("Bchance")
+	-- print(Bchance)
+	
+	-- print("Bamount")
+	-- print(Bamount)
+	-- print("Achance")
+	-- print(Achance)
+	-- print("Adamage")
+	-- print(Adamage)	
+	-- print("Amit")
+	-- print(Amit)
+	-- print("-------------------")
+
 
 	end
 end
@@ -468,8 +455,11 @@ local function Buffcalc()
 	local shieldDR = 0
 	local activeDR = 0
 	
+	Buffriftguard = false
+	Buffpacification = false
+	Buffvoid = false
+	
 	for i, buff in pairs(BuffList) do
-		--print("buff = " .. BuffList[i].name)
 		if buff.name == "Precept of Refuge" then 
 			Bchance = Bchance + .05
 		elseif buff.name == "Reef Barrier" then 
@@ -541,7 +531,9 @@ local function Buffcalc()
 		elseif buff.name == "Crest of Consumption" then 
 			activeDR = activeDR + .35
 		elseif buff.name == "Brothers in Arms" then 
-			linkDR = linkDR + .35	
+			linkDR = linkDR + .35
+		elseif buff.name == "Planar Refuge" then 
+			activeDR = activeDR + .30
 		end
 	end
 
@@ -553,10 +545,7 @@ local function Buffcalc()
 	BuffDRlink = linkDR
 	BuffDRshield = shieldDR
 	BuffDRactive = activeDR
-	--print(DR .. " = Buff DR")
-	--print(linkDR .. " = Buff Link DR")
-	--print(Bchance .. " = Buff block chance")
-	--print(Dchance .. " = Buff Dodge chance")
+
 	EHPcalc()
 	
 end
@@ -663,7 +652,7 @@ local function Create(configuration)
 		
 	TankMeter:ApplyBindings()
 	
-	
+	table.insert(Event.Stat, { Buffcalc, AddonId, "OnStat" })
 	
 	return TankMeter
 end
@@ -685,3 +674,5 @@ WT.Gadget.RegisterFactory("Tank Meter",
 		["GetConfiguration"] = GetConfiguration, 
 		["SetConfiguration"] = SetConfiguration, 
 	})
+
+
